@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+
+<launch>
+
+  
+  <node name="dense_cloud_creator" pkg="dense_cloud_creator" type="dense_cloud_creator" output="screen">
+  <rosparam command="load" file="$(find dense_cloud_creator)/config/dense_cloud_settings.yaml" />
+
+</node>
+
+<node pkg="rviz" type="rviz" name="rviz" args="-d $(find dense_cloud_creator)/rviz/dcc.rviz" />
+
+
+</launch>
