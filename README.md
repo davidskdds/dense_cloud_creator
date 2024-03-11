@@ -3,7 +3,7 @@ This package is used to transform point clouds from rosbags using poses from a p
 
 <figure>
 <img src="./doc/dense_pc.png" alt="drawing" width="600"/>
-<figcaption>Fig.1 - Resulting dense point cloud of sequence Exp04 Construction Upper Level of the Hilti-Oxford Dataset. The estimated trajectory is marked with a red line.</figcaption>
+<figcaption>Fig.1 - Resulting dense point cloud of sequence Exp04 Construction Upper Level of the Hilti-Oxford Dataset.</figcaption>
 </figure>
 
 # Contents
