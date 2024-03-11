@@ -1,6 +1,11 @@
 # Dense Cloud Creator
 This package is used to transform point clouds from rosbags using poses from a pose file into a common coordinate frame and save them as a .pcd file. The grid size and the maximum number of points of the resulting global point cloud can be set by parameters. It is sufficient if poses are provided at 10 Hz, for example. The times between the poses are interpolated. Here [Barycentric Rational interpolation](https://live.boost.org/doc/libs/1_72_0/libs/math/doc/html/math_toolkit/barycentric.html) is used for the translations and slerp for the orientations.
 
+<figure>
+<img src="./doc/dense_pc.png" alt="drawing" width="600"/>
+<figcaption>Fig.1 - Resulting dense point cloud of sequence Exp04 Construction Upper Level of the Hilti-Oxford Dataset. The estimated trajectory is marked with a red line.</figcaption>
+</figure>
+
 # Contents
 
 - [Prerequisites](#prerequisites) 
