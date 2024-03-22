@@ -170,8 +170,8 @@ void dense_cloud_creator::spin()
     // Save the cloud to a .pcd file
     std::string filename = result_dir + "/DensePointCloud.pcd";
 
-    globalPoints.width = filteredPoints.points.size();
-    globalPoints.height = 1;
+    filteredPoints.width = filteredPoints.points.size();
+    filteredPoints.height = 1;
 
     std::cout << "Save accumulated points to " << filename << " . . ." << std::endl;
     if (io::savePCDFileASCII(filename, filteredPoints) == -1)

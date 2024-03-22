@@ -58,7 +58,7 @@ You can also use the provided shell script, that will update your Eigen version 
 ### 2. Create source folder:
 `cd catkin_ws && mkdir src && cd src`
 ### 3. Clone repository:
-`git clone https://github.com/davidskdds/TBD.git`
+`git clone https://github.com/davidskdds/dense_cloud_creator.git`
 ### 4. Compile
 `cd .. && catkin_make`
 
