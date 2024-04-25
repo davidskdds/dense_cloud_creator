@@ -50,6 +50,9 @@ dense_cloud_creator::dense_cloud_creator()
     nh.getParam("min_dist", min_dist);
     std::cout << "min_dist: " << min_dist << std::endl;
 
+    nh.getParam("max_dist", max_dist);
+    std::cout << "max_dist: " << max_dist << std::endl;
+
     // init transform in imu frame
     imu2lidar = Matrix4f::Identity();
 
@@ -165,7 +168,7 @@ void dense_cloud_creator::spin()
     }
 
     std::cout << "Apply random grid filter last time before saving point cloud . . . " << std::endl;
-    randomGridDownsampling(globalPoints.makeShared(), filteredPoints, grid_size);
+    closestGridDownsampling(globalPoints.makeShared(), filteredPoints, grid_size);
 
     // Save the cloud to a .pcd file
     std::string filename = result_dir + "/DensePointCloud.pcd";
@@ -286,13 +289,16 @@ void dense_cloud_creator::callbackPointCloud(const sensor_msgs::PointCloud2::Con
     }
 
     int tformId = startFromId;
-    PointXYZ currPoint;
+    PointXYZI currPoint;
+    float pointNorm;
 
     // transform to world frame
     for (auto &point : newPC->points)
     {
         // skip points that are closer than min_dist
-        if (point.getVector3fMap().norm() < min_dist)
+        pointNorm = point.getVector3fMap().norm();
+
+        if (pointNorm < min_dist || pointNorm > max_dist)
         {
             point.getVector3fMap().setZero();
             continue;
@@ -304,7 +310,9 @@ void dense_cloud_creator::callbackPointCloud(const sensor_msgs::PointCloud2::Con
                 break;
 
         // transform to world
+        currPoint.data[3] = 1.0f;
         currPoint.getVector4fMap() = highResTransforms[tformId] * point.getVector4fMap();
+        currPoint.intensity = pointNorm;
         point.getVector4fMap() = highResTransforms[tformId] * point.getVector4fMap();
 
         // add to global points
@@ -315,7 +323,7 @@ void dense_cloud_creator::callbackPointCloud(const sensor_msgs::PointCloud2::Con
 
             std::cout << "Maximum number of points reached, apply grid filter and continue . . . " << std::endl;
 
-            randomGridDownsampling(globalPoints.makeShared(), filteredPoints, grid_size);
+            closestGridDownsampling(globalPoints.makeShared(), filteredPoints, grid_size);
 
             // not efficient but dont have a better idea atm
             globalPoints = filteredPoints;

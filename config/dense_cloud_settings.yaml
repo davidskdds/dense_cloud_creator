@@ -1,40 +1,41 @@
 # input:
 
-bag_dirs: "/home/david/Rosbags/Hilti/Additional_Seq/exp04_construction_upper_level.bag"
+bag_dirs: "/home/david/Rosbags/IntCDC/LocRecording/2024-04-25-10-32-38.bag"
 
-pose_file_dir: "/home/david/optim/Poses.txt"
+pose_file_dir: "/home/david/Rosbags/IntCDC/LocRecording/Map/Poses.txt"
 
 # output: save resulting dense point cloud
-result_dir: "/home/david/optim"
+result_dir: "/home/david/Rosbags/IntCDC/LocRecording/Map"
 
 ## GENERAL SETTINGS
 
 # grid size of resulting point cloud
-grid_size: 0.02
+grid_size: 0.05
 
 # minimum distance (all points closer are deleted, can be used to remove close dynamic objects)
 min_dist: 3.0
+max_dist: 15.0
 
 # maximum number of points for dense point cloud
 # If max_num_points is reached using the defined
 # grid size, the program saves the points and terminates.
-max_num_points: 20000000
+max_num_points: 50000000
 
 ## LiDAR SETTINGS
 
 # sensor {"hesai","ouster","robosense","velodyne","unknown"}
-sensor: "hesai"
-lidar_topic: "/hesai/pandar"
+sensor: "ouster"
+lidar_topic: "/ouster/points"
 
 # extrinsics poses to lidar (if poses are already w.r.t. LiDAR, set q_w: 1.0 and the rest to zero)
 
 # rot quaternion
-q_x: 0.7071068
-q_y: -0.7071068
+q_x: 0.0
+q_y: 0.0
 q_z: 0.0
-q_w: 0.0
+q_w: 1.0
 
 # translation
-t_x: -0.001
-t_y: -0.00855
-t_z: 0.055
+t_x: 0.0
+t_y: 0.0
+t_z: 0.0

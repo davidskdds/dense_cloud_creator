@@ -107,9 +107,9 @@ inline Vector3d rotm2axang(Matrix3d rotm)
     return Vector3d(skewSym(2, 1), skewSym(0, 2), skewSym(1, 0));
 }
 
-inline void randomGridDownsampling(PointCloud<PointXYZ>::Ptr rawPc, PointCloud<PointXYZ>& filteredPc, float gridSize)
+inline void closestGridDownsampling(PointCloud<PointXYZI>::Ptr rawPc, PointCloud<PointXYZI>& filteredPc, float gridSize)
 {
-    pcl::octree::OctreePointCloud<PointXYZ> octree(gridSize); // set voxel size
+    pcl::octree::OctreePointCloud<PointXYZI> octree(gridSize); // set voxel size
 
     // Set the input point cloud to the octree
     octree.setInputCloud(rawPc);
@@ -121,24 +121,26 @@ inline void randomGridDownsampling(PointCloud<PointXYZ>::Ptr rawPc, PointCloud<P
     filteredPc.resize(octree.getLeafCount());
 
     int filId = 0;
-    double r;
-    int id;
 
     // Use current time as seed for random generator
     srand(time(0));
+
+    int minId;
 
     for (auto it = octree.leaf_depth_begin(); it != octree.leaf_depth_end(); ++it)
     {
         std::vector<int> indices;
         it.getLeafContainer().getPointIndices(indices);
 
-        // get random number
-        r = ((double)rand() / (RAND_MAX));
+        minId = 0;
 
-        id = static_cast<int>(r * (double)(indices.size() - 1));
+        for (int k = 0; k < indices.size(); ++k)
+        {
+            if (rawPc->points[indices[k]].intensity < rawPc->points[indices[minId]].intensity) minId = k;
+        }
 
         // add point
-        filteredPc.points[filId] = rawPc->points[indices[id]];
+        filteredPc.points[filId] = rawPc->points[indices[minId]];
 
         // update index
         ++filId;

@@ -85,9 +85,10 @@ private:
   bool reachedMaxNumPoints = false;
 
   float min_dist;
+  float max_dist;
 
-  PointCloud<PointXYZ> globalPoints;
-  PointCloud<PointXYZ> filteredPoints;
+  PointCloud<PointXYZI> globalPoints;
+  PointCloud<PointXYZI> filteredPoints;
 
   void callbackPointCloud(const sensor_msgs::PointCloud2::ConstPtr &msg);
   void createHighResPoses(Eigen::MatrixXd &sparsePoses);
