@@ -220,6 +220,9 @@ void dense_cloud_creator::callbackPointCloud(const sensor_msgs::PointCloud2::Con
 
     double deltaTPcs = stampMsg - lastPcMsgStamp;
 
+    // update last msg stamp
+    lastPcMsgStamp = stampMsg;
+
     float tmpStampFloat;
     double tmpStampDouble;
 
@@ -271,6 +274,27 @@ void dense_cloud_creator::callbackPointCloud(const sensor_msgs::PointCloud2::Con
 
             newPC->at(k).stamp = stampMsg + static_cast<double>(tmpStampFloat);
             newPC->at(k).id = (int)ring_tmp;
+        }
+        else if (sensor == "livoxXYZRTLT_s")
+        {
+            // stamp and ring
+            memcpy(&tmpStampDouble, &msg->data[arrayPosition + msg->fields[6].offset], sizeof(double));
+
+            newPC->at(k).stamp = tmpStampDouble;
+
+            // add artificial ring index
+            newPC->at(k).id = k % 1000;
+        }
+        else if (sensor == "livoxXYZRTLT_ns")
+        {
+            // stamp and ring
+            memcpy(&tmpStampDouble, &msg->data[arrayPosition + msg->fields[6].offset], sizeof(double));
+
+            // multiply point stamp with 1e-9 to recieve correct stamp - this is a workaround since there is a bug in the livox2 driver
+            newPC->at(k).stamp = 1e-9 * tmpStampDouble;
+
+            // add artificial ring index
+            newPC->at(k).id = k % 1000;
         }
         else if (sensor == "unknown")
         {

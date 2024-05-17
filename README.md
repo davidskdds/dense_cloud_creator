@@ -27,6 +27,9 @@ The package can work with LiDAR data from the following manufacturers (the ROS d
 - Hesai
 - Velodyne
 - Robosense
+- Livox
+
+**Info for Livox-LiDARs:** To process point clouds from Livox LiDARs please record your data using the [livox_ros_driver2](https://github.com/Livox-SDK/livox_ros_driver2) and configure it to provide the points as PointCloud2-Messages in the PointXYZRTLT format. **Attention**: Currently there is a bug in the [livox_ros_driver2](https://github.com/Livox-SDK/livox_ros_driver2). The README states that the timestamps per point are in seconds, but they are actually in nanoseconds. Therefore, a sensor configuration with the name "livoxXYZRTLT_ns" is provided in this repo. For the case that the bug is fixed promptly and the timestamps are then available in seconds, an configuration "livoxXYZRTLT_s" is also provided.
 
 If no timestamp per point is provided, "unknown" can be set and a timestamp based on the message header stamp is calculated.
 

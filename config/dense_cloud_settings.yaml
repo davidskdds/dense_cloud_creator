@@ -1,11 +1,11 @@
 # input:
 
-bag_dirs: "/home/david/Rosbags/IntCDC/LocRecording/2024-04-25-10-32-38.bag"
+bag_dirs: "/home/david/Rosbags/Livox/test0_2024-05-09-16-30-17.bag"
 
-pose_file_dir: "/home/david/Rosbags/IntCDC/LocRecording/Map/Poses.txt"
+pose_file_dir: "/home/david/optim/livoxTest/Poses.txt"
 
 # output: save resulting dense point cloud
-result_dir: "/home/david/Rosbags/IntCDC/LocRecording/Map"
+result_dir: "/home/david/optim"
 
 ## GENERAL SETTINGS
 
@@ -23,9 +23,9 @@ max_num_points: 50000000
 
 ## LiDAR SETTINGS
 
-# sensor {"hesai","ouster","robosense","velodyne","unknown"}
-sensor: "ouster"
-lidar_topic: "/ouster/points"
+# sensor {"hesai","ouster","robosense","velodyne","livoxXYZRTLT_s","livoxXYZRTLT_ns","unknown"}
+sensor: "livoxXYZRTLT_ns"
+lidar_topic:  "/livox/lidar"
 
 # extrinsics poses to lidar (if poses are already w.r.t. LiDAR, set q_w: 1.0 and the rest to zero)
 
